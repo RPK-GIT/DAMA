@@ -52,6 +52,18 @@ Slide Creation — Batch 4 (Slides 16–20) — PDF renderer
 | HTML PDF export | `Chapter_1_Slides_001_005_HTML.pdf` |
 | Comparison report | `Chapter_1_HTML_Comparison.md` |
 
+## HTML Rich Visual Experiment 3 — Slide 13 (annotated_hierarchy)
+
+| Item | Detail |
+|---|---|
+| JSON | `Chapter_1_Slide_013_Rich_Experiment3.json` — same canonical hierarchy + 18 source annotations |
+| HTML output | `Chapter_1_Slide_013_Rich_Experiment3.html` — 0 errors, 0 warnings; HTML-ONLY (no PDF) |
+| Renderer commits | `10fe0e4` (annotated_hierarchy mode) + `f353b32` (bugfix: h-branch stopPropagation) |
+| Tests | 64/64 pass |
+| Comparison report | `Chapter_1_Slide_013_Rich_Experiment3_Comparison.md` |
+| Key finding | Hierarchy tree visually identical to PDF; clicking any node shows floating navy popover with verbatim DAMA text and exact page reference. Bug found and fixed: `interactive_hierarchy` h-branch handler was calling `stopPropagation`, blocking ann-node clicks. |
+| Recommendation | Apply to table slides with structured definitions (11 KA slides 44–45). Most reusable approach of all three experiments. |
+
 ## HTML Rich Visual Experiment 2 — Slide 13 (principles_explorer)
 
 | Item | Detail |
