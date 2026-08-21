@@ -1,0 +1,127 @@
+{
+  "deck": {
+    "title": "DAMA-DMBOK Chapter 1 — Data Management Study Summary"
+  },
+  "slides": [
+    {
+      "id": "slide13-principles-exp2",
+      "type": "hierarchy",
+      "section": "2.4 — Data Management Principles",
+      "title": "The 12 Data Management Principles",
+      "root": "12 Data Management Principles",
+      "children": [
+        {
+          "label": "Data is Valuable",
+          "children": [
+            "Unique asset properties",
+            "Value expressible in economic terms"
+          ]
+        },
+        {
+          "label": "DM is a Business Requirement",
+          "children": [
+            "Managing data = managing quality",
+            "Metadata is required to manage data",
+            "Planning is required to manage data",
+            "DM requirements must drive IT decisions"
+          ]
+        },
+        {
+          "label": "DM Needs Diverse Skills",
+          "children": [
+            "Cross-functional by nature",
+            "Requires enterprise perspective",
+            "Accounts for multiple perspectives"
+          ]
+        },
+        {
+          "label": "DM is Lifecycle Management",
+          "children": [
+            "Data has a lifecycle to manage",
+            "Different data types, different requirements",
+            "Risk management is part of DM"
+          ]
+        },
+        "Leadership Commitment Required"
+      ],
+      "source": "DAMA-DMBOK PDF pp. 50–54"
+    }
+  ],
+  "_html_visual": {
+    "by_slide": {
+      "slide13-principles-exp2": {
+        "mode": "principles_explorer",
+        "source_annotations": {
+          "Data is Valuable": {
+            "text": "Data management shares characteristics with other forms of asset management. It involves knowing what data an organization has and what might be accomplished with it, then determining how best to use data assets to reach organizational goals.",
+            "page": "50"
+          },
+          "Unique asset properties": {
+            "text": "Data is an asset with unique properties: Data is an asset, but it differs from other assets in important ways that influence how it is managed. The most obvious of these properties is that data is not consumed when it is used, as are financial and physical assets.",
+            "page": "50–51"
+          },
+          "Value expressible in economic terms": {
+            "text": "The value of data can and should be expressed in economic terms: Calling data an asset implies that it has value. While there are techniques for measuring data's qualitative and quantitative value, there are not yet standards for doing so. Organizations that want to make better decisions about their data should develop consistent ways to quantify that value. They should also measure both the costs of low quality data and the benefits of high quality data.",
+            "page": "51"
+          },
+          "DM is a Business Requirement": {
+            "text": "This balance can best be struck by following a set of principles that recognize salient features of data management and guide data management practice.",
+            "page": "50"
+          },
+          "Managing data = managing quality": {
+            "text": "Managing data means managing the quality of data: Ensuring that data is fit for purpose is a primary goal of data management. To manage quality, organizations must ensure they understand stakeholders' requirements for quality and measure data against these requirements.",
+            "page": "51–52"
+          },
+          "Metadata is required to manage data": {
+            "text": "It takes Metadata to manage data: Managing any asset requires having data about that asset (number of employees, accounting codes, etc.). The data used to manage and use data is called Metadata. Because data cannot be held or touched, to understand what it is and how to use it requires definition and knowledge in the form of Metadata. Metadata originates from a range of processes related to data creation, processing, and use, including architecture, modeling, stewardship, governance, Data Quality management, systems development, IT and business operations, and analytics.",
+            "page": "51"
+          },
+          "Planning is required to manage data": {
+            "text": "It takes planning to manage data: Even small organizations can have complex technical and business process landscapes. Data is created in many places and is moved between places for use. To coordinate work and keep the end results aligned requires planning from an architectural and process perspective.",
+            "page": "53"
+          },
+          "DM requirements must drive IT decisions": {
+            "text": "Data management requirements must drive Information Technology decisions: Data and data management are deeply intertwined with information technology and information technology management. Managing data requires an approach that ensures technology serves, rather than drives, an organization's strategic data needs.",
+            "page": "53–54"
+          },
+          "DM Needs Diverse Skills": {
+            "text": "Data management is cross-functional; it requires a range of skills and expertise. A single team cannot manage all of an organization's data.",
+            "page": "53"
+          },
+          "Cross-functional by nature": {
+            "text": "Data management is cross-functional; it requires a range of skills and expertise: A single team cannot manage all of an organization's data. Data management requires both technical and non-technical skills and the ability to collaborate.",
+            "page": "53"
+          },
+          "Requires enterprise perspective": {
+            "text": "Data management requires an enterprise perspective: Data management has local applications, but it must be applied across the enterprise to be as effective as possible. This is one reason why data management and data governance are intertwined.",
+            "page": "53"
+          },
+          "Accounts for multiple perspectives": {
+            "text": "Data management must account for a range of perspectives: Data is fluid. Data management must constantly evolve to keep up with the ways data is created and used and the data consumers who use it.",
+            "page": "53"
+          },
+          "DM is Lifecycle Management": {
+            "text": "Data management is lifecycle management: Data has a lifecycle and managing data requires managing its lifecycle. Because data begets more data, the data lifecycle itself can be very complex.",
+            "page": "53"
+          },
+          "Data has a lifecycle to manage": {
+            "text": "Data management is lifecycle management: Data has a lifecycle and managing data requires managing its lifecycle. Because data begets more data, the data lifecycle itself can be very complex. Data management practices need to account for the data lifecycle.",
+            "page": "53"
+          },
+          "Different data types, different requirements": {
+            "text": "Different types of data have different lifecycle characteristics: And for this reason, they have different management requirements. Data management practices have to recognize these differences and be flexible enough to meet different kinds of data lifecycle requirements.",
+            "page": "53"
+          },
+          "Risk management is part of DM": {
+            "text": "Managing data includes managing the risks associated with data: In addition to being an asset, data also represents risk to an organization. Data can be lost, stolen, or misused. Organizations must consider the ethical implications of their uses of data. Data-related risks must be managed as part of the data lifecycle.",
+            "page": "53–54"
+          },
+          "Leadership Commitment Required": {
+            "text": "Effective data management requires leadership commitment: Data management involves a complex set of processes that, to be effective, require coordination, collaboration, and commitment. Getting there requires not only management skills, but also the vision and purpose that come from committed leadership.",
+            "page": "54"
+          }
+        }
+      }
+    }
+  }
+}

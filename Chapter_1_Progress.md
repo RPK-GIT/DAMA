@@ -52,7 +52,20 @@ Slide Creation — Batch 4 (Slides 16–20) — PDF renderer
 | HTML PDF export | `Chapter_1_Slides_001_005_HTML.pdf` |
 | Comparison report | `Chapter_1_HTML_Comparison.md` |
 
-## HTML Rich Visual Experiment — Slide 13
+## HTML Rich Visual Experiment 2 — Slide 13 (principles_explorer)
+
+| Item | Detail |
+|---|---|
+| Source JSON | `Chapter_1_Slide_013_Rich_Experiment2.json` (same canonical content + source_annotations) |
+| HTML output | `Chapter_1_Slide_013_Rich_Experiment2.html` — 0 errors, 0 warnings |
+| PDF export | `Chapter_1_Slide_013_Rich_Experiment2.pdf` |
+| Renderer mode | `principles_explorer` — new mode added to HTML-Renderer (commit a720eb5 / 0c06014) |
+| Tests | 61/61 pass after adding 3 new tests |
+| Comparison report | `Chapter_1_Slide_013_Rich_Experiment2_Comparison.md` |
+| Key finding | Source drill-down (group card → principle → verbatim DAMA text + page) is the standout feature. Qualitatively different from both PDF and Experiment 1. |
+| Recommendation | Apply to table slides with structured source text (11 Knowledge Areas, 12 context diagram components); keep PDF as canonical deliverable |
+
+## HTML Rich Visual Experiment 1 — Slide 13 (interactive_hierarchy)
 
 | Item | Detail |
 |---|---|
