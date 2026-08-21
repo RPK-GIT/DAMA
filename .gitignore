@@ -1,0 +1,6 @@
+# Local Claude config
+.claude/
+
+# Root-level validation reports (overwritten on every render run)
+/validation_report.json
+/validation_report.md

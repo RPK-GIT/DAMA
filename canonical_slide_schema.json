@@ -1,0 +1,359 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "canonical-slide-spec/v1.0",
+  "title": "Canonical Slide JSON",
+  "description": "Semantic slide specification consumed by both the PDF and HTML/SVG renderers. Contains content and structure only — no coordinates, colors, CSS, SVG or HTML.",
+  "type": "object",
+  "required": ["deck", "slides"],
+  "additionalProperties": false,
+  "properties": {
+    "deck": {
+      "type": "object",
+      "required": ["title"],
+      "properties": {
+        "title": { "type": "string", "description": "Deck title shown in the footer of every slide." }
+      }
+    },
+    "theme": {
+      "type": "object",
+      "description": "Optional renderer theme overrides. Keys must match the target renderer's theme object. Slides must never hard-code visual values here.",
+      "additionalProperties": true
+    },
+    "slides": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/slide" }
+    }
+  },
+  "$defs": {
+    "commonSlideFields": {
+      "properties": {
+        "section":  { "type": "string", "description": "Small label above the slide title (section or chapter context)." },
+        "subtitle": { "type": "string", "description": "Secondary line below the slide title." },
+        "intro":    { "type": "string", "description": "Lead-in sentence rendered between the title and the main body." },
+        "source":   { "type": "string", "description": "Source reference rendered verbatim in the footer." }
+      }
+    },
+    "bulletItem": {
+      "oneOf": [
+        { "type": "string" },
+        {
+          "type": "object",
+          "required": ["text"],
+          "properties": {
+            "text": { "type": "string" },
+            "sub":  { "type": "array", "items": { "type": "string" }, "maxItems": 6 }
+          }
+        }
+      ]
+    },
+    "columnObject": {
+      "type": "object",
+      "properties": {
+        "heading": { "type": "string" },
+        "body":    { "type": "string" },
+        "bullets": { "type": "array", "items": { "$ref": "#/$defs/bulletItem" }, "maxItems": 6 },
+        "more":    {
+          "type": "string",
+          "description": "Expandable detail (HTML only — PDF renderer ignores this field)."
+        }
+      }
+    },
+    "imageObject": {
+      "type": "object",
+      "required": ["path"],
+      "properties": {
+        "path":    { "type": "string", "description": "Relative path from the JSON file's directory." },
+        "fit":     { "type": "string", "enum": ["contain", "cover", "center"], "default": "contain" },
+        "caption": { "type": "string" },
+        "alt":     { "type": "string", "description": "Accessibility description (HTML only — PDF renderer ignores)." }
+      }
+    },
+    "summaryItem": {
+      "oneOf": [
+        { "type": "string" },
+        {
+          "type": "object",
+          "required": ["text"],
+          "properties": {
+            "text":   { "type": "string", "description": "Primary label text." },
+            "detail": { "type": "string", "description": "Subtitle line (HTML uses; PDF ignores)." },
+            "slide":  { "type": "integer", "minimum": 1, "description": "Navigation target slide number (HTML only — PDF ignores)." }
+          }
+        }
+      ]
+    },
+    "processStep": {
+      "oneOf": [
+        { "type": "string" },
+        {
+          "type": "object",
+          "required": ["label"],
+          "properties": {
+            "label":  { "type": "string" },
+            "detail": { "type": "string" }
+          }
+        }
+      ]
+    },
+    "hierarchyChild": {
+      "oneOf": [
+        { "type": "string" },
+        {
+          "type": "object",
+          "required": ["label"],
+          "properties": {
+            "label":    { "type": "string" },
+            "children": {
+              "type": "array",
+              "items": { "type": "string" },
+              "maxItems": 4,
+              "description": "Grandchildren (leaf nodes). Max 4 for cross-renderer safety (HTML hard limit)."
+            }
+          }
+        }
+      ]
+    },
+    "slide": {
+      "oneOf": [
+        { "$ref": "#/$defs/slideTitle" },
+        { "$ref": "#/$defs/slideSectionSummary" },
+        { "$ref": "#/$defs/slideContent" },
+        { "$ref": "#/$defs/slideTwoColumn" },
+        { "$ref": "#/$defs/slideThreeColumn" },
+        { "$ref": "#/$defs/slideDefinition" },
+        { "$ref": "#/$defs/slideProcess" },
+        { "$ref": "#/$defs/slideHierarchy" },
+        { "$ref": "#/$defs/slideRelationship" },
+        { "$ref": "#/$defs/slideComparison" },
+        { "$ref": "#/$defs/slideTable" },
+        { "$ref": "#/$defs/slideImageText" },
+        { "$ref": "#/$defs/slideTakeaway" }
+      ]
+    },
+    "slideTitle": {
+      "type": "object",
+      "required": ["type", "title"],
+      "properties": {
+        "type":     { "type": "string", "const": "title" },
+        "label":    { "type": "string" },
+        "title":    { "type": "string" },
+        "subtitle": { "type": "string" },
+        "author":   { "type": "string" },
+        "date":     { "type": "string" }
+      }
+    },
+    "slideSectionSummary": {
+      "type": "object",
+      "required": ["type", "title", "summary"],
+      "allOf": [{ "$ref": "#/$defs/commonSlideFields" }],
+      "properties": {
+        "type":    { "type": "string", "const": "section_summary" },
+        "title":   { "type": "string" },
+        "summary": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/summaryItem" },
+          "minItems": 1,
+          "maxItems": 10
+        }
+      }
+    },
+    "slideContent": {
+      "type": "object",
+      "required": ["type", "title"],
+      "allOf": [{ "$ref": "#/$defs/commonSlideFields" }],
+      "properties": {
+        "type":    { "type": "string", "const": "content" },
+        "title":   { "type": "string" },
+        "body":    { "type": "string" },
+        "bullets": { "type": "array", "items": { "$ref": "#/$defs/bulletItem" } },
+        "callout": { "type": "string" }
+      }
+    },
+    "slideTwoColumn": {
+      "type": "object",
+      "required": ["type", "title", "columns"],
+      "allOf": [{ "$ref": "#/$defs/commonSlideFields" }],
+      "properties": {
+        "type":    { "type": "string", "const": "two_column" },
+        "title":   { "type": "string" },
+        "columns": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/columnObject" },
+          "minItems": 2,
+          "maxItems": 2
+        }
+      }
+    },
+    "slideThreeColumn": {
+      "type": "object",
+      "required": ["type", "title", "columns"],
+      "allOf": [{ "$ref": "#/$defs/commonSlideFields" }],
+      "properties": {
+        "type":    { "type": "string", "const": "three_column" },
+        "title":   { "type": "string" },
+        "columns": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/columnObject" },
+          "minItems": 3,
+          "maxItems": 3
+        }
+      }
+    },
+    "slideDefinition": {
+      "type": "object",
+      "required": ["type", "term", "definition"],
+      "allOf": [{ "$ref": "#/$defs/commonSlideFields" }],
+      "properties": {
+        "type":       { "type": "string", "const": "definition" },
+        "title":      { "type": "string" },
+        "label":      { "type": "string", "default": "Definition" },
+        "term":       { "type": "string" },
+        "definition": { "type": "string", "description": "VERBATIM — must not be modified by any renderer." },
+        "notes":      { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "slideProcess": {
+      "type": "object",
+      "required": ["type", "title", "steps"],
+      "allOf": [{ "$ref": "#/$defs/commonSlideFields" }],
+      "properties": {
+        "type":    { "type": "string", "const": "process" },
+        "title":   { "type": "string" },
+        "variant": {
+          "type": "string",
+          "enum": ["auto", "horizontal", "snake", "cycle"],
+          "default": "auto",
+          "description": "Diagram layout hint. PDF renderer always uses auto-layout. HTML renderer applies the requested variant."
+        },
+        "center":  { "type": "string", "description": "Label at the centre of a cycle diagram (ignored if variant is not cycle)." },
+        "steps":   {
+          "type": "array",
+          "items": { "$ref": "#/$defs/processStep" },
+          "minItems": 2,
+          "maxItems": 8
+        }
+      }
+    },
+    "slideHierarchy": {
+      "type": "object",
+      "required": ["type", "title", "root", "children"],
+      "allOf": [{ "$ref": "#/$defs/commonSlideFields" }],
+      "properties": {
+        "type":     { "type": "string", "const": "hierarchy" },
+        "title":    { "type": "string" },
+        "root":     { "type": "string" },
+        "children": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/hierarchyChild" },
+          "minItems": 1,
+          "maxItems": 6
+        }
+      }
+    },
+    "slideRelationship": {
+      "type": "object",
+      "required": ["type", "title", "nodes", "edges"],
+      "allOf": [{ "$ref": "#/$defs/commonSlideFields" }],
+      "properties": {
+        "type":     { "type": "string", "const": "relationship" },
+        "title":    { "type": "string" },
+        "directed": { "type": "boolean", "default": false },
+        "variant":  {
+          "type": "string",
+          "enum": ["radial"],
+          "description": "Force radial layout (HTML only — PDF renderer auto-detects hub)."
+        },
+        "nodes": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["id", "label"],
+            "properties": {
+              "id":    { "type": "string" },
+              "label": { "type": "string" }
+            }
+          },
+          "minItems": 2,
+          "maxItems": 8
+        },
+        "edges": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["from", "to"],
+            "properties": {
+              "from":     { "type": "string" },
+              "to":       { "type": "string" },
+              "label":    { "type": "string" },
+              "directed": { "type": "boolean" }
+            }
+          }
+        }
+      }
+    },
+    "slideComparison": {
+      "type": "object",
+      "required": ["type", "title", "left", "right"],
+      "allOf": [{ "$ref": "#/$defs/commonSlideFields" }],
+      "properties": {
+        "type":    { "type": "string", "const": "comparison" },
+        "title":   { "type": "string" },
+        "divider": { "type": "string", "default": "VS" },
+        "left": {
+          "type": "object",
+          "required": ["heading", "points"],
+          "properties": {
+            "heading": { "type": "string" },
+            "points":  { "type": "array", "items": { "type": "string" } }
+          }
+        },
+        "right": {
+          "type": "object",
+          "required": ["heading", "points"],
+          "properties": {
+            "heading": { "type": "string" },
+            "points":  { "type": "array", "items": { "type": "string" } }
+          }
+        }
+      }
+    },
+    "slideTable": {
+      "type": "object",
+      "required": ["type", "title", "columns", "rows"],
+      "allOf": [{ "$ref": "#/$defs/commonSlideFields" }],
+      "properties": {
+        "type":                   { "type": "string", "const": "table" },
+        "title":                  { "type": "string" },
+        "columns":                { "type": "array", "items": { "type": "string" }, "minItems": 2, "maxItems": 6 },
+        "align":                  { "type": "array", "items": { "type": "string", "enum": ["left", "center", "right"] } },
+        "emphasize_first_column": { "type": "boolean" },
+        "rows":                   { "type": "array", "items": { "type": "array", "items": { "type": "string" } } }
+      }
+    },
+    "slideImageText": {
+      "type": "object",
+      "required": ["type", "title", "image"],
+      "allOf": [{ "$ref": "#/$defs/commonSlideFields" }],
+      "properties": {
+        "type":       { "type": "string", "const": "image_text" },
+        "title":      { "type": "string" },
+        "image":      { "$ref": "#/$defs/imageObject" },
+        "image_side": { "type": "string", "enum": ["left", "right"], "default": "left" },
+        "body":       { "type": "string" },
+        "bullets":    { "type": "array", "items": { "$ref": "#/$defs/bulletItem" } }
+      }
+    },
+    "slideTakeaway": {
+      "type": "object",
+      "required": ["type", "statement"],
+      "allOf": [{ "$ref": "#/$defs/commonSlideFields" }],
+      "properties": {
+        "type":      { "type": "string", "const": "takeaway" },
+        "title":     { "type": "string" },
+        "statement": { "type": "string" },
+        "points":    { "type": "array", "items": { "type": "string" }, "maxItems": 3 }
+      }
+    }
+  }
+}

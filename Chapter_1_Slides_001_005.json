@@ -1,0 +1,105 @@
+{
+  "deck": {
+    "title": "DAMA-DMBOK Chapter 1 — Data Management Study Summary"
+  },
+  "slides": [
+    {
+      "type": "title",
+      "label": "DAMA-DMBOK 2nd Edition",
+      "title": "Data Management",
+      "subtitle": "Chapter 1 — Principles, Frameworks, and Knowledge Areas",
+      "author": "DAMA-DMBOK Study Summary",
+      "date": "Source: pp. 45–95"
+    },
+    {
+      "type": "hierarchy",
+      "section": "Chapter Overview",
+      "title": "Chapter Roadmap",
+      "root": "Chapter 1 — Data Management",
+      "children": [
+        {
+          "label": "1 — Introduction",
+          "children": ["Business Drivers", "Goals"]
+        },
+        {
+          "label": "2 — Essential Concepts",
+          "children": ["Data & Information", "12 Principles", "13 Challenges", "Data Strategy"]
+        },
+        {
+          "label": "3 — DM Frameworks",
+          "children": ["SAM & AIM", "DAMA Wheel", "Aiken Pyramid", "Framework Evolved"]
+        },
+        "4 — DAMA and the DMBOK",
+        "5 — Works Cited"
+      ],
+      "source": "DAMA-DMBOK PDF pp. 45–95"
+    },
+    {
+      "type": "two_column",
+      "section": "1 — Introduction",
+      "title": "The Case for Managing Data",
+      "intro": "Deriving value from data does not happen by accident — it requires management and leadership.",
+      "columns": [
+        {
+          "heading": "What Data Represents",
+          "bullets": [
+            "A vital enterprise asset enabling insight into customers, products, and services",
+            "Called the 'currency', 'life blood', and 'new oil' of the information economy",
+            "Essential to day-to-day operations — organisations cannot transact without data",
+            "A means to innovate and reach strategic goals"
+          ]
+        },
+        {
+          "heading": "What Management Requires",
+          "bullets": [
+            "Intention, planning, coordination, and commitment — value does not happen by accident",
+            "Both technical and non-technical (business) skills",
+            "Shared responsibility between business and IT roles",
+            "Collaboration to ensure high-quality data that meets strategic needs"
+          ]
+        }
+      ],
+      "source": "DAMA-DMBOK PDF pp. 45–46"
+    },
+    {
+      "type": "two_column",
+      "section": "1 — Introduction",
+      "title": "Core Definitions",
+      "columns": [
+        {
+          "heading": "Data Management",
+          "body": "Data Management is the development, execution, and supervision of plans, policies, programs, and practices that deliver, control, protect, and enhance the value of data and information assets throughout their lifecycles."
+        },
+        {
+          "heading": "Data Management Professional",
+          "body": "A Data Management Professional is any person who works in any facet of data management (from technical management of data throughout its lifecycle to ensuring that data is properly utilized and leveraged) to meet strategic organizational goals."
+        }
+      ],
+      "source": "DAMA-DMBOK PDF p. 45"
+    },
+    {
+      "type": "comparison",
+      "section": "1.1 — Business Drivers",
+      "title": "Why Data Management Matters",
+      "left": {
+        "heading": "Effective Data Management",
+        "points": [
+          "Enables organisations to get value from their data assets",
+          "Delivers reliable, high-quality data for better decisions",
+          "Provides competitive advantage through information and knowledge",
+          "Mirrors the management of financial and physical assets"
+        ]
+      },
+      "right": {
+        "heading": "Failure to Manage Data",
+        "points": [
+          "Similar to failure to manage capital",
+          "Results in waste and lost opportunity",
+          "Leaves the potential value of data assets untapped",
+          "Prevents organisations from reaching strategic goals"
+        ]
+      },
+      "source": "DAMA-DMBOK PDF p. 46"
+    }
+  ]
+}

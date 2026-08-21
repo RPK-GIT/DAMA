@@ -1,0 +1,112 @@
+{
+  "deck": {
+    "title": "DAMA-DMBOK Chapter 1 — Data Management Study Summary"
+  },
+  "slides": [
+    {
+      "type": "section_summary",
+      "section": "1.2 — Goals",
+      "title": "Data Management Goals",
+      "summary": [
+        "Understanding and supporting the information needs of the enterprise and its stakeholders, including customers, employees, and business partners",
+        "Capturing, storing, protecting, and ensuring the integrity of data assets",
+        "Ensuring the quality of data and information",
+        "Ensuring the privacy and confidentiality of stakeholder data",
+        "Preventing unauthorized or inappropriate access, manipulation, or use of data and information",
+        "Ensuring data can be used effectively to add value to the enterprise"
+      ],
+      "source": "DAMA-DMBOK PDF pp. 46–47"
+    },
+    {
+      "type": "section_summary",
+      "section": "2 — Essential Concepts",
+      "title": "Section 2 — Essential Concepts: Overview",
+      "summary": [
+        "2.1 Data — what data is, representation, context, and the disciplines required to manage it",
+        "2.2 Data and Information — the DIKW pyramid, its limitations, and why both data and information must be managed",
+        "2.3 Data as an Organizational Asset — data as economic resource; value, monetization, and the data-driven organisation",
+        "2.4 Data Management Principles — 12 foundational principles grouped in four themes",
+        "2.5 Data Management Challenges — 13 challenges that arise from the properties and principles of data",
+        "2.6 Data Management Strategy — strategy components, deliverables, and the CDO's role"
+      ],
+      "source": "DAMA-DMBOK PDF p. 47"
+    },
+    {
+      "type": "two_column",
+      "section": "2.1 — Data",
+      "title": "What Data Is",
+      "columns": [
+        {
+          "heading": "Nature of Data",
+          "bullets": [
+            "Represents facts about the world; in IT, also understood as information stored in digital form — though data is not limited to digitised information",
+            "A means of representation: 'stands for things other than itself' (Chisholm, 2010)",
+            "Both an interpretation of objects it represents and an object that must itself be interpreted (Sebastian-Coleman, 2013)",
+            "Context = data's representational system; the conventions of that system are documented as Metadata"
+          ]
+        },
+        {
+          "heading": "Why Management is Needed",
+          "bullets": [
+            "People make different choices about how to represent concepts, creating multiple shapes for the same idea",
+            "Even within one organisation, different departments represent the same concept differently",
+            "Across organisations, the problem of multiplicity multiplies, requiring industry-level data standards",
+            "Multiplicity drives the need for Data Architecture, modeling, governance, stewardship, and Metadata and Data Quality management"
+          ]
+        }
+      ],
+      "source": "DAMA-DMBOK PDF pp. 47–48"
+    },
+    {
+      "type": "process",
+      "section": "2.1 — Data",
+      "title": "Why Data Representation is Complex",
+      "intro": "Different choices about how to represent concepts create compounding challenges that require dedicated management disciplines.",
+      "steps": [
+        {
+          "label": "Representation choices",
+          "detail": "People choose how to represent concepts; no single agreed method exists for complex entities such as 'customer' or 'product'"
+        },
+        {
+          "label": "Multiple shapes",
+          "detail": "From different choices, data takes on different shapes and forms — even within the same organisation"
+        },
+        {
+          "label": "Multiplicity grows",
+          "detail": "Across departments and organisations, multiple representations of the same concept multiply"
+        },
+        {
+          "label": "Disciplines required",
+          "detail": "Drives the need for Data Architecture, modeling, governance, stewardship, Metadata and Data Quality management"
+        }
+      ],
+      "source": "DAMA-DMBOK PDF p. 48"
+    },
+    {
+      "type": "two_column",
+      "section": "2.2 — Data and Information",
+      "title": "Data and Information",
+      "columns": [
+        {
+          "heading": "The DIKW Pyramid",
+          "bullets": [
+            "Data is called the 'raw material of information'; information is called 'data in context'",
+            "A layered pyramid is often used: Data → Information → Knowledge → Wisdom",
+            "Useful for explaining why data needs to be well managed",
+            "Throughout the DMBOK, 'data' and 'information' are used interchangeably"
+          ]
+        },
+        {
+          "heading": "Three Challenges with the Pyramid",
+          "bullets": [
+            "It assumes data simply exists — but data has to be created",
+            "Its linear sequence fails to recognise that it takes knowledge to create data in the first place",
+            "It implies data and information are separate — in reality they are intertwined and dependent on each other",
+            "Central tenet: BOTH data and information need to be managed together with uses and customer requirements in mind"
+          ]
+        }
+      ],
+      "source": "DAMA-DMBOK PDF pp. 48–49"
+    }
+  ]
+}

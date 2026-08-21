@@ -1,0 +1,7 @@
+[submodule "renderer/Deterministic-Renderer"]
+	path = renderer/Deterministic-Renderer
+	url = https://github.com/RPK-GIT/Deterministic-Renderer.git
+
+[submodule "renderer/HTML-Renderer"]
+	path = renderer/HTML-Renderer
+	url = https://github.com/RPK-GIT/HTML-Renderer.git

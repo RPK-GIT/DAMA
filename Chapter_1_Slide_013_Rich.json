@@ -1,0 +1,57 @@
+{
+  "deck": {
+    "title": "DAMA-DMBOK Chapter 1 — Data Management Study Summary"
+  },
+  "slides": [
+    {
+      "id": "slide13-principles",
+      "type": "hierarchy",
+      "section": "2.4 — Data Management Principles",
+      "title": "The 12 Data Management Principles",
+      "root": "12 Data Management Principles",
+      "children": [
+        {
+          "label": "Data is Valuable",
+          "children": [
+            "Unique asset properties",
+            "Value expressible in economic terms"
+          ]
+        },
+        {
+          "label": "DM is a Business Requirement",
+          "children": [
+            "Managing data = managing quality",
+            "Metadata is required to manage data",
+            "Planning is required to manage data",
+            "DM requirements must drive IT decisions"
+          ]
+        },
+        {
+          "label": "DM Needs Diverse Skills",
+          "children": [
+            "Cross-functional by nature",
+            "Requires enterprise perspective",
+            "Accounts for multiple perspectives"
+          ]
+        },
+        {
+          "label": "DM is Lifecycle Management",
+          "children": [
+            "Data has a lifecycle to manage",
+            "Different data types, different requirements",
+            "Risk management is part of DM"
+          ]
+        },
+        "Leadership Commitment Required"
+      ],
+      "source": "DAMA-DMBOK PDF pp. 50–53"
+    }
+  ],
+  "_html_visual": {
+    "by_slide": {
+      "slide13-principles": {
+        "mode": "interactive_hierarchy"
+      }
+    }
+  }
+}

@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DAMA-DMBOK Chapter 1 — Data Management Study Summary</title>
+<style>
+:root {
+  --navy: #0E3A66;
+  --blue: #2E75B6;
+  --light-blue: #D9E8F5;
+  --white: #FFFFFF;
+  --font: Helvetica, Arial, "Helvetica Neue", sans-serif;
+  --radius: 10px;
+  --shadow: 0 2px 10px rgba(14, 58, 102, 0.10);
+  --leading: 1.35;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  background: var(--navy);
+  font-family: var(--font);
+  overflow: hidden;
+}
+
+/* ---- stage: scales the logical 1280x720 canvas to the viewport ---- */
+#stage { position: fixed; inset: 0; }
+#deck {
+  position: absolute;
+  left: 50%; top: 50%;
+  width: 1280px; height: 720px;
+  transform: translate(-50%, -50%) scale(var(--scale, 1));
+}
+.frame { position: absolute; inset: 0; pointer-events: none; }
+.frame.active { pointer-events: auto; }
+body.overview .frame { pointer-events: auto; }
+.slide {
+  position: absolute; inset: 0;
+  width: 1280px; height: 720px;
+  background: var(--white);
+  color: var(--navy);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 250ms ease;
+  overflow: hidden;
+}
+.frame.active .slide { opacity: 1; pointer-events: auto; }
+
+/* ---- shared slide chrome ---- */
+.s-head { position: absolute; left: 72px; right: 72px; top: 52px; }
+.s-label {
+  color: var(--blue);
+  font-size: 13px; font-weight: bold;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  margin-bottom: 8px;
+}
+.s-title { color: var(--navy); font-size: 32px; font-weight: bold; line-height: 1.15; }
+.s-accent { width: 60px; height: 5px; background: var(--blue); margin-top: 14px; border-radius: 2px; }
+.s-subtitle { color: var(--blue); font-size: 19px; margin-top: 14px; }
+.s-intro { color: var(--navy); font-size: 17px; line-height: var(--leading); margin-top: 18px; }
+.s-body {
+  position: absolute;
+  left: 72px; right: 72px;
+  bottom: 80px;
+  overflow: hidden;
+}
+.s-foot {
+  position: absolute;
+  left: 72px; right: 72px;
+  bottom: 22px;
+  border-top: 1px solid var(--blue);
+  padding-top: 8px;
+  display: flex; justify-content: space-between; gap: 24px;
+  color: var(--blue);
+  font-size: 11px;
+  letter-spacing: 0.06em; text-transform: uppercase;
+}
+.s-foot .src { text-transform: none; letter-spacing: 0; }
+
+/* ---- generic content styles ---- */
+.body-text { font-size: 17px; line-height: var(--leading); color: var(--navy); }
+.bullets { list-style: none; }
+.bullets li {
+  position: relative;
+  padding-left: 22px;
+  font-size: 17px; line-height: var(--leading);
+  color: var(--navy);
+  margin-bottom: 10px;
+}
+.bullets li::before {
+  content: '';
+  position: absolute; left: 2px; top: 0.55em;
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--blue);
+}
+.bullets .sub { list-style: none; margin-top: 8px; }
+.bullets .sub li { font-size: 14px; margin-bottom: 6px; }
+.bullets .sub li::before { width: 6px; height: 6px; background: var(--light-blue); border: 1.5px solid var(--blue); top: 0.45em; }
+.card {
+  background: var(--light-blue);
+  border-radius: var(--radius);
+  padding: 22px 24px;
+  box-shadow: var(--shadow);
+}
+.card h3 { color: var(--navy); font-size: 18px; margin-bottom: 12px; }
+.card .body-text { margin-bottom: 14px; }
+.card .bullets li:last-child { margin-bottom: 0; }
+.card-accent { border-top: 5px solid var(--blue); }
+.callout {
+  background: var(--navy);
+  color: var(--white);
+  border-radius: var(--radius);
+  padding: 18px 24px;
+  font-size: 17px; line-height: var(--leading);
+}
+svg text { font-family: var(--font); }
+.s-body > svg { display: block; margin: 0 auto; }
+
+/* ---- presentation tables ---- */
+.p-table { width: 100%; border-collapse: collapse; }
+.p-table th {
+  background: var(--navy); color: var(--white);
+  font-weight: bold;
+  padding: 11px 16px;
+}
+.p-table thead tr th:first-child { border-radius: var(--radius) 0 0 0; }
+.p-table thead tr th:last-child { border-radius: 0 var(--radius) 0 0; }
+.p-table td {
+  color: var(--navy);
+  padding: 9px 16px;
+  line-height: 1.35;
+  vertical-align: top;
+}
+.p-table tbody tr:nth-child(even) { background: var(--light-blue); }
+.p-table tbody tr:nth-child(odd) { background: var(--white); }
+.p-table tbody tr { border-bottom: 1px solid var(--light-blue); }
+
+/* ---- diagram hover highlighting (screen only) ---- */
+@media screen {
+  svg [data-node], svg [data-edge], svg .h-branch { transition: opacity 180ms ease; }
+  svg .dim { opacity: 0.22; }
+  svg.hier:hover .h-branch:not(:hover) { opacity: 0.35; }
+  svg [data-node] { cursor: default; }
+}
+
+/* ---- HUD: counter + controls (screen only, outside slide canvas) ---- */
+#hud {
+  position: fixed; right: 16px; bottom: 12px;
+  display: flex; align-items: center; gap: 10px;
+  color: var(--light-blue);
+  font-size: 13px;
+  user-select: none;
+  z-index: 20;
+  opacity: 0;
+  transition: opacity 300ms ease;
+}
+body.hud-visible #hud { opacity: 0.9; }
+#hud button {
+  background: transparent;
+  border: 1px solid var(--light-blue);
+  border-radius: 6px;
+  color: var(--light-blue);
+  font-size: 13px; font-family: var(--font);
+  width: 28px; height: 24px;
+  cursor: pointer;
+}
+#hud button:hover { background: rgba(217, 232, 245, 0.15); }
+
+/* ---- overview mode ---- */
+body.overview { overflow: auto; }
+body.overview #deck {
+  position: static; transform: none;
+  width: auto; height: auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 240px);
+  gap: 18px; justify-content: center;
+  padding: 32px;
+}
+body.overview .frame {
+  position: relative;
+  width: 240px; height: 135px;
+  overflow: hidden;
+  border-radius: 4px;
+  cursor: pointer;
+  outline: 2px solid transparent;
+}
+body.overview .frame:hover { outline-color: var(--light-blue); }
+body.overview .frame.active { outline-color: var(--blue); }
+body.overview .slide {
+  transform: scale(0.1875);
+  transform-origin: 0 0;
+  opacity: 1;
+  transition: none;
+  pointer-events: none;
+}
+body.overview #hud { display: none; }
+
+/* ---- interactive affordances (screen only) ---- */
+@media screen {
+  [data-expand] .exp-body { display: none; }
+  [data-expand].open .exp-body { display: block; }
+  [data-expand] > .exp-head { cursor: pointer; }
+  [data-expand] > .exp-head::after {
+    content: '+'; float: right; color: var(--blue); font-weight: bold;
+  }
+  [data-expand].open > .exp-head::after { content: '\2212'; }
+  .hoverable { transition: transform 160ms ease, box-shadow 160ms ease; }
+  .hoverable:hover { transform: translateY(-3px); box-shadow: 0 6px 18px rgba(14, 58, 102, 0.18); }
+}
+
+/* ---- print / PDF export: one slide per page, no scaling ---- */
+@page { size: 1280px 720px; margin: 0; }
+@media print {
+  html, body { height: auto; overflow: visible; background: var(--white); }
+  #stage { position: static; }
+  #deck { position: static; transform: none; width: auto; height: auto; }
+  .frame { position: relative; width: 1280px; height: 720px; page-break-after: always; break-inside: avoid; }
+  .slide { opacity: 1 !important; transition: none; }
+  #hud { display: none; }
+  [data-expand] .exp-body { display: block; }
+  [data-expand] > .exp-head::after { content: ''; }
+}
+</style>
+</head>
+<body>
+<div id="stage">
+<div id="deck">
+<div class="frame active" data-slide="1">
+<section class="slide" aria-label="Slide 1">
+
+<div style="position: absolute; inset: 0; background: var(--navy);">
+  <div style="position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 0 72px;">
+    <div style="color: var(--light-blue); font-size: 14px; font-weight: bold; letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 26px;">DAMA-DMBOK 2nd Edition</div>
+    <h1 style="color: var(--white); font-size: 44px; font-weight: bold; line-height: 1.15; max-width: 940px;">Data Management</h1>
+    <div style="width: 84px; height: 5px; background: var(--blue); border-radius: 2px; margin: 26px auto 0;"></div>
+    <p style="color: var(--light-blue); font-size: 21px; margin-top: 24px; max-width: 860px;">Chapter 1 — Principles, Frameworks, and Knowledge Areas</p>
+  </div>
+  <div style="position: absolute; left: 0; right: 0; bottom: 64px; text-align: center; color: var(--light-blue); font-size: 14px; opacity: 0.9;">DAMA-DMBOK Study Summary &middot; Source: pp. 45–95</div>
+</div>
+</section>
+</div>
+<div class="frame" data-slide="2">
+<section class="slide" aria-label="Slide 2">
+
+<header class="s-head"><div class="s-label">Chapter Overview</div><h2 class="s-title">Chapter Roadmap</h2><div class="s-accent"></div></header>
+<div class="s-body" style="top: 158px;"><svg width="1136" height="482" viewBox="0 0 1136 482" xmlns="http://www.w3.org/2000/svg" role="img" class="hier" aria-label="Hierarchy diagram">
+<rect x="410.7" y="64.0" width="314.6" height="54.0" rx="10" fill="#0E3A66"/>
+<text text-anchor="middle" dominant-baseline="middle" font-size="18" fill="#FFFFFF" font-weight="bold"><tspan x="568" y="91.0">Chapter 1 — Data Management</tspan></text>
+<line x1="568" y1="118" x2="568" y2="137" stroke="#2E75B6" stroke-width="1.5"/>
+<line x1="104.0" y1="137" x2="1032.0" y2="137" stroke="#2E75B6" stroke-width="1.5"/>
+<g class="h-branch"><line x1="104.0" y1="137" x2="104.0" y2="156" stroke="#2E75B6" stroke-width="1.5"/><rect x="0.0" y="156.0" width="208.0" height="50.0" rx="10" fill="#2E75B6"/><text text-anchor="middle" dominant-baseline="middle" font-size="16" fill="#FFFFFF" font-weight="bold"><tspan x="104" y="181.0">1 — Introduction</tspan></text><line x1="104.0" y1="206.0" x2="104.0" y2="222.0" stroke="#2E75B6" stroke-width="1.5"/><rect x="12.0" y="222.0" width="184.0" height="40.0" rx="6" fill="#D9E8F5"/><text text-anchor="middle" dominant-baseline="middle" font-size="13.5" fill="#0E3A66"><tspan x="104" y="242.0">Business Drivers</tspan></text><line x1="104.0" y1="262.0" x2="104.0" y2="274.0" stroke="#2E75B6" stroke-width="1.5"/><rect x="12.0" y="274.0" width="184.0" height="40.0" rx="6" fill="#D9E8F5"/><text text-anchor="middle" dominant-baseline="middle" font-size="13.5" fill="#0E3A66"><tspan x="104" y="294.0">Goals</tspan></text></g>
+<g class="h-branch"><line x1="336.0" y1="137" x2="336.0" y2="156" stroke="#2E75B6" stroke-width="1.5"/><rect x="232.0" y="156.0" width="208.0" height="50.0" rx="10" fill="#2E75B6"/><text text-anchor="middle" dominant-baseline="middle" font-size="16" fill="#FFFFFF" font-weight="bold"><tspan x="336" y="181.0">2 — Essential Concepts</tspan></text><line x1="336.0" y1="206.0" x2="336.0" y2="222.0" stroke="#2E75B6" stroke-width="1.5"/><rect x="244.0" y="222.0" width="184.0" height="40.0" rx="6" fill="#D9E8F5"/><text text-anchor="middle" dominant-baseline="middle" font-size="13.5" fill="#0E3A66"><tspan x="336" y="242.0">Data &amp; Information</tspan></text><line x1="336.0" y1="262.0" x2="336.0" y2="274.0" stroke="#2E75B6" stroke-width="1.5"/><rect x="244.0" y="274.0" width="184.0" height="40.0" rx="6" fill="#D9E8F5"/><text text-anchor="middle" dominant-baseline="middle" font-size="13.5" fill="#0E3A66"><tspan x="336" y="294.0">12 Principles</tspan></text><line x1="336.0" y1="314.0" x2="336.0" y2="326.0" stroke="#2E75B6" stroke-width="1.5"/><rect x="244.0" y="326.0" width="184.0" height="40.0" rx="6" fill="#D9E8F5"/><text text-anchor="middle" dominant-baseline="middle" font-size="13.5" fill="#0E3A66"><tspan x="336" y="346.0">13 Challenges</tspan></text><line x1="336.0" y1="366.0" x2="336.0" y2="378.0" stroke="#2E75B6" stroke-width="1.5"/><rect x="244.0" y="378.0" width="184.0" height="40.0" rx="6" fill="#D9E8F5"/><text text-anchor="middle" dominant-baseline="middle" font-size="13.5" fill="#0E3A66"><tspan x="336" y="398.0">Data Strategy</tspan></text></g>
+<g class="h-branch"><line x1="568.0" y1="137" x2="568.0" y2="156" stroke="#2E75B6" stroke-width="1.5"/><rect x="464.0" y="156.0" width="208.0" height="50.0" rx="10" fill="#2E75B6"/><text text-anchor="middle" dominant-baseline="middle" font-size="16" fill="#FFFFFF" font-weight="bold"><tspan x="568" y="181.0">3 — DM Frameworks</tspan></text><line x1="568.0" y1="206.0" x2="568.0" y2="222.0" stroke="#2E75B6" stroke-width="1.5"/><rect x="476.0" y="222.0" width="184.0" height="40.0" rx="6" fill="#D9E8F5"/><text text-anchor="middle" dominant-baseline="middle" font-size="13.5" fill="#0E3A66"><tspan x="568" y="242.0">SAM &amp; AIM</tspan></text><line x1="568.0" y1="262.0" x2="568.0" y2="274.0" stroke="#2E75B6" stroke-width="1.5"/><rect x="476.0" y="274.0" width="184.0" height="40.0" rx="6" fill="#D9E8F5"/><text text-anchor="middle" dominant-baseline="middle" font-size="13.5" fill="#0E3A66"><tspan x="568" y="294.0">DAMA Wheel</tspan></text><line x1="568.0" y1="314.0" x2="568.0" y2="326.0" stroke="#2E75B6" stroke-width="1.5"/><rect x="476.0" y="326.0" width="184.0" height="40.0" rx="6" fill="#D9E8F5"/><text text-anchor="middle" dominant-baseline="middle" font-size="13.5" fill="#0E3A66"><tspan x="568" y="346.0">Aiken Pyramid</tspan></text><line x1="568.0" y1="366.0" x2="568.0" y2="378.0" stroke="#2E75B6" stroke-width="1.5"/><rect x="476.0" y="378.0" width="184.0" height="40.0" rx="6" fill="#D9E8F5"/><text text-anchor="middle" dominant-baseline="middle" font-size="13.5" fill="#0E3A66"><tspan x="568" y="398.0">Framework Evolved</tspan></text></g>
+<g class="h-branch"><line x1="800.0" y1="137" x2="800.0" y2="156" stroke="#2E75B6" stroke-width="1.5"/><rect x="696.0" y="156.0" width="208.0" height="50.0" rx="10" fill="#2E75B6"/><text text-anchor="middle" dominant-baseline="middle" font-size="16" fill="#FFFFFF" font-weight="bold"><tspan x="800" y="170.6">4 — DAMA and the</tspan><tspan x="800" y="191.4">DMBOK</tspan></text></g>
+<g class="h-branch"><line x1="1032.0" y1="137" x2="1032.0" y2="156" stroke="#2E75B6" stroke-width="1.5"/><rect x="928.0" y="156.0" width="208.0" height="50.0" rx="10" fill="#2E75B6"/><text text-anchor="middle" dominant-baseline="middle" font-size="16" fill="#FFFFFF" font-weight="bold"><tspan x="1032" y="181.0">5 — Works Cited</tspan></text></g>
+</svg></div><footer class="s-foot"><span>DAMA-DMBOK Chapter 1 — Data Management Study Summary</span><span class="src"><span class="src">Source: DAMA-DMBOK PDF pp. 45–95</span>&nbsp;&nbsp;&middot;&nbsp;&nbsp;<span>2 / 5</span></span></footer>
+</section>
+</div>
+<div class="frame" data-slide="3">
+<section class="slide" aria-label="Slide 3">
+
+<header class="s-head"><div class="s-label">1 — Introduction</div><h2 class="s-title">The Case for Managing Data</h2><div class="s-accent"></div><p class="s-intro">Deriving value from data does not happen by accident — it requires management and leadership.</p></header>
+<div class="s-body ofc" style="top: 199px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 32px; align-content: start;">
+  <div class="card card-accent hoverable" style="min-width: 0;"><h3>What Data Represents</h3><ul class="bullets"><li>A vital enterprise asset enabling insight into customers, products, and services</li><li>Called the &#39;currency&#39;, &#39;life blood&#39;, and &#39;new oil&#39; of the information economy</li><li>Essential to day-to-day operations — organisations cannot transact without data</li><li>A means to innovate and reach strategic goals</li></ul></div>
+  <div class="card card-accent hoverable" style="min-width: 0;"><h3>What Management Requires</h3><ul class="bullets"><li>Intention, planning, coordination, and commitment — value does not happen by accident</li><li>Both technical and non-technical (business) skills</li><li>Shared responsibility between business and IT roles</li><li>Collaboration to ensure high-quality data that meets strategic needs</li></ul></div>
+</div><footer class="s-foot"><span>DAMA-DMBOK Chapter 1 — Data Management Study Summary</span><span class="src"><span class="src">Source: DAMA-DMBOK PDF pp. 45–46</span>&nbsp;&nbsp;&middot;&nbsp;&nbsp;<span>3 / 5</span></span></footer>
+</section>
+</div>
+<div class="frame" data-slide="4">
+<section class="slide" aria-label="Slide 4">
+
+<header class="s-head"><div class="s-label">1 — Introduction</div><h2 class="s-title">Core Definitions</h2><div class="s-accent"></div></header>
+<div class="s-body ofc" style="top: 158px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 32px; align-content: start;">
+  <div class="card card-accent hoverable" style="min-width: 0;"><h3>Data Management</h3><p class="body-text" style="font-size: 17px;">Data Management is the development, execution, and supervision of plans, policies, programs, and practices that deliver, control, protect, and enhance the value of data and information assets throughout their lifecycles.</p></div>
+  <div class="card card-accent hoverable" style="min-width: 0;"><h3>Data Management Professional</h3><p class="body-text" style="font-size: 17px;">A Data Management Professional is any person who works in any facet of data management (from technical management of data throughout its lifecycle to ensuring that data is properly utilized and leveraged) to meet strategic organizational goals.</p></div>
+</div><footer class="s-foot"><span>DAMA-DMBOK Chapter 1 — Data Management Study Summary</span><span class="src"><span class="src">Source: DAMA-DMBOK PDF p. 45</span>&nbsp;&nbsp;&middot;&nbsp;&nbsp;<span>4 / 5</span></span></footer>
+</section>
+</div>
+<div class="frame" data-slide="5">
+<section class="slide" aria-label="Slide 5">
+
+<header class="s-head"><div class="s-label">1.1 — Business Drivers</div><h2 class="s-title">Why Data Management Matters</h2><div class="s-accent"></div></header>
+<div class="s-body ofc" style="top: 174px; display: grid; grid-template-columns: 1fr 64px 1fr; align-items: stretch; align-content: start;">
+  
+  <div style="min-width: 0; display: flex; flex-direction: column;">
+    <div style="background: var(--navy); color: var(--white); border-radius: var(--radius) var(--radius) 0 0; padding: 14px 20px; text-align: center; font-weight: bold; font-size: 18px;">Effective Data Management</div>
+    <div class="card" style="border-radius: 0 0 var(--radius) var(--radius); flex: 1;"><ul class="bullets"><li>Enables organisations to get value from their data assets</li><li>Delivers reliable, high-quality data for better decisions</li><li>Provides competitive advantage through information and knowledge</li><li>Mirrors the management of financial and physical assets</li></ul></div>
+  </div>
+  <div style="align-self: center; justify-self: center;">
+    <div style="width: 58px; height: 58px; border-radius: 50%; border: 2.5px solid var(--blue); background: var(--white); display: flex; align-items: center; justify-content: center; color: var(--blue); font-weight: bold; font-size: 15px;">VS</div>
+  </div>
+  
+  <div style="min-width: 0; display: flex; flex-direction: column;">
+    <div style="background: var(--navy); color: var(--white); border-radius: var(--radius) var(--radius) 0 0; padding: 14px 20px; text-align: center; font-weight: bold; font-size: 18px;">Failure to Manage Data</div>
+    <div class="card" style="border-radius: 0 0 var(--radius) var(--radius); flex: 1;"><ul class="bullets"><li>Similar to failure to manage capital</li><li>Results in waste and lost opportunity</li><li>Leaves the potential value of data assets untapped</li><li>Prevents organisations from reaching strategic goals</li></ul></div>
+  </div>
+</div><footer class="s-foot"><span>DAMA-DMBOK Chapter 1 — Data Management Study Summary</span><span class="src"><span class="src">Source: DAMA-DMBOK PDF p. 46</span>&nbsp;&nbsp;&middot;&nbsp;&nbsp;<span>5 / 5</span></span></footer>
+</section>
+</div>
+</div>
+</div>
+<div id="hud">
+<button id="hud-prev" title="Previous (Left arrow)">&#8249;</button>
+<span id="hud-counter">1 / 5</span>
+<button id="hud-next" title="Next (Right arrow)">&#8250;</button>
+<button id="hud-grid" title="Overview (O)">&#9638;</button>
+</div>
+<script>
+(function () {
+  var frames = Array.prototype.slice.call(document.querySelectorAll('.frame'));
+  var counter = document.getElementById('hud-counter');
+  var current = 0;
+
+  function clamp(n) { return Math.max(0, Math.min(frames.length - 1, n)); }
+
+  function show(n, pushHash) {
+    current = clamp(n);
+    frames.forEach(function (f, i) { f.classList.toggle('active', i === current); });
+    if (counter) counter.textContent = (current + 1) + ' / ' + frames.length;
+    if (pushHash !== false) {
+      try { history.replaceState(null, '', '#' + (current + 1)); } catch (e) {}
+    }
+  }
+
+  function fit() {
+    var s = Math.min(window.innerWidth / 1280, window.innerHeight / 720);
+    document.getElementById('deck').style.setProperty('--scale', s);
+  }
+
+  function toggleOverview(force) {
+    var on = document.body.classList.toggle('overview', force);
+    if (on) {
+      var f = frames[current];
+      if (f && f.scrollIntoView) f.scrollIntoView({ block: 'center' });
+    }
+  }
+
+  document.addEventListener('keydown', function (e) {
+    if (e.altKey || e.ctrlKey || e.metaKey) return;
+    switch (e.key) {
+      case 'ArrowRight': case 'PageDown': case ' ':
+        show(current + 1); e.preventDefault(); break;
+      case 'ArrowLeft': case 'PageUp':
+        show(current - 1); e.preventDefault(); break;
+      case 'Home': show(0); e.preventDefault(); break;
+      case 'End': show(frames.length - 1); e.preventDefault(); break;
+      case 'o': case 'O': case 'Escape':
+        if (e.key !== 'Escape' || document.body.classList.contains('overview')) {
+          toggleOverview(); e.preventDefault();
+        }
+        break;
+    }
+  });
+
+  frames.forEach(function (f, i) {
+    f.addEventListener('click', function (e) {
+      if (document.body.classList.contains('overview')) {
+        document.body.classList.remove('overview');
+        show(i);
+        e.preventDefault();
+        return;
+      }
+      // Plain click on non-interactive area advances the deck.
+      var t = e.target;
+      while (t && t !== f) {
+        if (t.hasAttribute && (t.hasAttribute('data-expand') || t.hasAttribute('data-goto') || t.tagName === 'A')) return;
+        t = t.parentNode;
+      }
+      show(current + 1);
+    });
+  });
+
+  document.querySelectorAll('[data-expand] > .exp-head').forEach(function (h) {
+    h.addEventListener('click', function () {
+      h.parentNode.classList.toggle('open');
+    });
+  });
+
+  document.querySelectorAll('[data-goto]').forEach(function (el) {
+    el.addEventListener('click', function (e) {
+      e.stopPropagation();
+      show(parseInt(el.getAttribute('data-goto'), 10) - 1);
+    });
+  });
+
+  var prev = document.getElementById('hud-prev');
+  var next = document.getElementById('hud-next');
+  var grid = document.getElementById('hud-grid');
+  if (prev) prev.addEventListener('click', function () { show(current - 1); });
+  if (next) next.addEventListener('click', function () { show(current + 1); });
+  if (grid) grid.addEventListener('click', function () { toggleOverview(); });
+
+  // Relationship diagrams: hovering a node highlights its connections.
+  document.querySelectorAll('svg.rel').forEach(function (svg) {
+    var nodes = svg.querySelectorAll('[data-node]');
+    var edges = svg.querySelectorAll('[data-edge]');
+    nodes.forEach(function (g) {
+      g.addEventListener('mouseenter', function () {
+        var id = g.getAttribute('data-node');
+        var keep = {};
+        keep[id] = true;
+        edges.forEach(function (e) {
+          var hit = e.getAttribute('data-from') === id || e.getAttribute('data-to') === id;
+          e.classList.toggle('dim', !hit);
+          if (hit) { keep[e.getAttribute('data-from')] = true; keep[e.getAttribute('data-to')] = true; }
+        });
+        nodes.forEach(function (n) { n.classList.toggle('dim', !keep[n.getAttribute('data-node')]); });
+      });
+      g.addEventListener('mouseleave', function () {
+        svg.querySelectorAll('.dim').forEach(function (el) { el.classList.remove('dim'); });
+      });
+    });
+  });
+
+  // HUD appears on mouse activity and fades out when idle.
+  var hudTimer = null;
+  function pokeHud() {
+    document.body.classList.add('hud-visible');
+    clearTimeout(hudTimer);
+    hudTimer = setTimeout(function () { document.body.classList.remove('hud-visible'); }, 2200);
+  }
+  document.addEventListener('mousemove', pokeHud);
+  var hud = document.getElementById('hud');
+  if (hud) {
+    hud.addEventListener('mouseenter', function () { clearTimeout(hudTimer); document.body.classList.add('hud-visible'); });
+    hud.addEventListener('mouseleave', pokeHud);
+  }
+
+  window.addEventListener('resize', fit);
+  window.addEventListener('hashchange', function () {
+    var n = parseInt(location.hash.slice(1), 10);
+    if (!isNaN(n)) show(n - 1, false);
+  });
+
+  fit();
+  var start = parseInt(location.hash.slice(1), 10);
+  show(isNaN(start) ? 0 : start - 1, false);
+
+  // ---- runtime overflow scan (all slides are laid out even at opacity 0) ----
+  function scanOverflow() {
+    var problems = [];
+    frames.forEach(function (f, i) {
+      var slide = f.querySelector('.slide');
+      var sr = slide.getBoundingClientRect();
+      var scale = sr.width / 1280 || 1;
+      var tol = 2 * scale;
+      slide.querySelectorAll('*').forEach(function (el) {
+        if (!el.offsetParent && el.offsetWidth === 0) return;
+        var r = el.getBoundingClientRect();
+        if (r.width === 0 && r.height === 0) return;
+        if (r.right > sr.right + tol || r.bottom > sr.bottom + tol || r.left < sr.left - tol || r.top < sr.top - tol) {
+          problems.push({ slide: i + 1, code: 'element_outside_slide', tag: el.tagName.toLowerCase(), cls: el.className && el.className.baseVal !== undefined ? el.className.baseVal : el.className, text: (el.textContent || '').trim().slice(0, 60) });
+        }
+        var cs = window.getComputedStyle(el);
+        if (cs.overflow === 'hidden' || cs.overflowY === 'hidden') {
+          if (el.scrollHeight > el.clientHeight + 2 || el.scrollWidth > el.clientWidth + 2) {
+            if (!el.classList.contains('slide')) {
+              problems.push({ slide: i + 1, code: 'text_overflow', tag: el.tagName.toLowerCase(), cls: String(el.className), text: (el.textContent || '').trim().slice(0, 60) });
+            }
+          }
+        }
+      });
+      if (slide.scrollHeight > slide.clientHeight + 2 || slide.scrollWidth > slide.clientWidth + 2) {
+        problems.push({ slide: i + 1, code: 'slide_overflow', tag: 'section', cls: 'slide', text: '' });
+      }
+    });
+    window.__validation = { overflows: problems };
+    if (problems.length) console.warn('Overflow problems:', problems);
+    return problems;
+  }
+  window.__scanOverflow = scanOverflow;
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { setTimeout(scanOverflow, 60); });
+  } else {
+    setTimeout(scanOverflow, 300);
+  }
+})();
+</script>
+</body>
+</html>

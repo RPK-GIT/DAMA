@@ -1,0 +1,143 @@
+{
+  "deck": {
+    "title": "DAMA-DMBOK Chapter 1 — Data Management Study Summary"
+  },
+  "slides": [
+    {
+      "type": "process",
+      "section": "2.2 — Data and Information",
+      "title": "Example: The Data–Information Cycle",
+      "intro": "The same content alternates between being 'data' and 'information' depending on the role it plays and the purpose it serves.",
+      "steps": [
+        {
+          "label": "Information",
+          "detail": "Sales report for last quarter — a meaningful output presented to stakeholders"
+        },
+        {
+          "label": "Data",
+          "detail": "Underlying records from the data warehouse — the raw input that generates the report"
+        },
+        {
+          "label": "Data (re-used)",
+          "detail": "Those same quarterly results, now treated as input data for the next calculation"
+        },
+        {
+          "label": "Information",
+          "detail": "Quarter-over-quarter performance measures — new information derived from the prior results"
+        }
+      ],
+      "source": "DAMA-DMBOK PDF p. 49"
+    },
+    {
+      "type": "definition",
+      "section": "2.3 — Data as an Organizational Asset",
+      "title": "Data as an Organizational Asset",
+      "label": "Core Definition",
+      "term": "Asset",
+      "definition": "An asset is an economic resource, that can be owned or controlled, and that holds or produces value. Assets can be converted to money.",
+      "notes": [
+        "Data is widely recognised as an enterprise asset, though understanding what it means to manage it as one is still evolving",
+        "Goodwill analogy: in the early 1990s, 'value of goodwill' on the P&L was questioned — now it is standard. Monetisation of data is following the same trajectory",
+        "Data-driven organisations replace gut-feeling decisions with event triggers and analytics to gain actionable insight",
+        "Effective management of data as an asset requires a partnership of business leadership and technical expertise"
+      ],
+      "source": "DAMA-DMBOK PDF pp. 49–50"
+    },
+    {
+      "type": "hierarchy",
+      "section": "2.4 — Data Management Principles",
+      "title": "The 12 Data Management Principles",
+      "root": "12 Data Management Principles",
+      "children": [
+        {
+          "label": "Data is Valuable",
+          "children": [
+            "Unique asset properties",
+            "Value expressible in economic terms"
+          ]
+        },
+        {
+          "label": "DM is a Business Requirement",
+          "children": [
+            "Managing data = managing quality",
+            "Metadata is required to manage data",
+            "Planning is required to manage data",
+            "DM requirements must drive IT decisions"
+          ]
+        },
+        {
+          "label": "DM Needs Diverse Skills",
+          "children": [
+            "Cross-functional by nature",
+            "Requires enterprise perspective",
+            "Accounts for multiple perspectives"
+          ]
+        },
+        {
+          "label": "DM is Lifecycle Management",
+          "children": [
+            "Data has a lifecycle to manage",
+            "Different data types, different requirements",
+            "Risk management is part of DM"
+          ]
+        },
+        "Leadership Commitment Required"
+      ],
+      "source": "DAMA-DMBOK PDF pp. 50–53"
+    },
+    {
+      "type": "three_column",
+      "section": "2.4 — Data Management Principles",
+      "title": "Selected Principles in Depth",
+      "columns": [
+        {
+          "heading": "Data has Unique Properties",
+          "bullets": [
+            "Unlike financial or physical assets, data is not consumed when it is used",
+            "The same data can be used by multiple people simultaneously",
+            "Data does not wear out, though its value may change with age",
+            "Many uses of data beget more data — volumes and relationships grow continuously"
+          ]
+        },
+        {
+          "heading": "Metadata is Essential",
+          "bullets": [
+            "Because data cannot be held or touched, understanding it requires definition and knowledge in the form of Metadata",
+            "Metadata originates from architecture, modeling, stewardship, governance, Data Quality management, systems development, IT operations, and analytics",
+            "Managing data requires Metadata about that data"
+          ]
+        },
+        {
+          "heading": "Data is Lifecycle Management",
+          "bullets": [
+            "Data has a lifecycle; managing data means managing that lifecycle",
+            "Because data begets more data, the data lifecycle can be very complex",
+            "Different types of data have different lifecycle characteristics and therefore different management requirements"
+          ]
+        }
+      ],
+      "source": "DAMA-DMBOK PDF pp. 50–54"
+    },
+    {
+      "type": "section_summary",
+      "section": "2.5 — Data Management Challenges",
+      "title": "13 Data Management Challenges",
+      "summary": [
+        "2.5.1 — Data differs from other assets",
+        "2.5.2 — Data valuation",
+        "2.5.3 — Data quality",
+        "2.5.4 — Planning for better data",
+        "2.5.5 — Metadata and data management",
+        "2.5.6 — Data management is cross-functional",
+        "2.5.7 — Establishing an enterprise perspective",
+        "2.5.8 — Accounting for other perspectives",
+        "2.5.9 — The data lifecycle",
+        "2.5.10 — Different types of data",
+        "2.5.11 — Data and risk",
+        "2.5.12 — Data management and technology",
+        "2.5.13 — Effective data management requires leadership and commitment"
+      ],
+      "source": "DAMA-DMBOK PDF p. 54"
+    }
+  ]
+}
